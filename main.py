@@ -19,7 +19,6 @@ def page_counter(link):
 		else:
 			print(n)
 			n=n+1
-	
 
 def articles_selector(link):
 	articles=[]
@@ -45,10 +44,11 @@ def scraper(article):
 	page_articles.append(components)
 	return page_articles
 
-def first_iterator():
-	for i in range(1,2):
-		page_link='http://www.elmostrador.cl/claves/sebastian-pinera/page/'+str(i)+'/'
+def first_iterator():	
+	tag='sebastian-pinera'
+	for i in range(1,3):
+		page_link='http://www.elmostrador.cl/claves/'+tag+'/page/'+str(i)+'/'
 		print(articles_selector(page_link))
 
-first_iterator()
+#first_iterator()
 #page_counter(page_link)
