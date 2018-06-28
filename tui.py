@@ -1,7 +1,6 @@
 import curses
 import sys
 import os
-import main
 
 class CursesMenu(object):
 
@@ -107,20 +106,4 @@ class CursesMenu(object):
             self.running = False
             return {'title' : 'Exit', 'type' : 'exitmenu'}
 
-menu = {'title' : 'El Mostrador Scraper',
-        'type' : 'menu',
-        'subtitle' : 'Select the action: '}
 
-option_1 = {'title' : 'First Iterator',
-            'type' : 'function',
-            'function' : 'count'}
-
-menu['options'] = [option_1]
-
-m = CursesMenu(menu)
-selected_action = m.display()
-
-if selected_action['type']!='exitmenu':
-	if selected_action['type']=='function':
-		if selected_action['function']=='count':
-			main.first_iterator()
