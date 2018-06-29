@@ -19,6 +19,14 @@ def page_counter(link):
 			print(n)
 			n=n+1
 
+def max_id():
+	data={}
+	with open('data.txt', encoding='utf-8') as outfile:
+		data=json.load(outfile)	
+	ids=list(map(int,data.keys()))
+	biggest_id=max(ids)
+	print(biggest_id)
+
 def articles_selector(link):
 	articles=[]
 	page_response = requests.get(link, timeout=5)
