@@ -2,6 +2,7 @@
 from bs4 import BeautifulSoup
 import requests
 import json
+import os
 
 pinera=[]
 
@@ -27,11 +28,17 @@ def articles_selector(link):
 	all_articles = page_content.find_all('article')
 	for i in all_articles:
 		if i.find(class_="fecha"):
-			articles.append(scraper(i))
-	return articles
+			scraper(i)
 
 def scraper(article):
-	page_articles=[]	
+	data={}
+	if os.path.isfile('data.txt'):
+		with open('data.txt') as outfile:
+			data=json.load(outfile)
+		ids=list(map(int, data.keys()))
+		id_number=str(max(ids)+1)			
+	else:
+		id_number="1"
 	components={}
 	date=article.find("p").text.split("|")[0]
 	title=article.find('a').text
@@ -40,15 +47,19 @@ def scraper(article):
 	components['date']=date
 	components['title']=title
 	components['author']=author
-	components['link']=link
-	page_articles.append(components)
-	return page_articles
+	components['link']=link	
+	data[id_number]=components
+	with open('data.txt','w') as outfile:
+		json.dump(data,outfile)
+
 
 def first_iterator():	
 	tag='sebastian-pinera'
-	pages=page_counter('http://www.elmostrador.cl/claves/sebastian-pinera/')
-	for i in reversed(range(520,pages+1)):
+	#pages=page_counter('http://www.elmostrador.cl/claves/sebastian-pinera/')
+	for i in reversed(range(1,2)):
 		page_link='http://www.elmostrador.cl/claves/'+tag+'/page/'+str(i)+'/'
-		print(articles_selector(page_link))
+		articles_selector(page_link)
+
+
 
 
