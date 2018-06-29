@@ -2,8 +2,8 @@ import argparse
 import scraper
 
 parser=argparse.ArgumentParser()
-parser.add_argument('-i','--iterator',action="store_true")
-parser.add_argument('-c','--counter',action="store_true")
+parser.add_argument('-i','--iterator',help='Iterate over the whole page.',action="store_true")
+parser.add_argument('-c','--counter',help='Count how many pages are for the target.',action="store_true")
 args=parser.parse_args()
 if args.iterator:
 	scraper.first_iterator()
