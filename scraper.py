@@ -48,6 +48,9 @@ def scraper(article):
 	components['title']=title
 	components['author']=author
 	components['link']=link	
+	for i in data.keys():
+		if data[i]['title']==title:
+			return			
 	data[id_number]=components
 	with open('data.txt','w') as outfile:
 		json.dump(data,outfile)
@@ -56,7 +59,7 @@ def scraper(article):
 def first_iterator():	
 	tag='sebastian-pinera'
 	#pages=page_counter('http://www.elmostrador.cl/claves/sebastian-pinera/')
-	for i in reversed(range(1,2)):
+	for i in reversed(range(1,3)):
 		page_link='http://www.elmostrador.cl/claves/'+tag+'/page/'+str(i)+'/'
 		articles_selector(page_link)
 
