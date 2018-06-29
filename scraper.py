@@ -1,7 +1,7 @@
 #pip3 install requests beautifulsoup4
 from bs4 import BeautifulSoup
 import requests
-page_link ='http://www.elmostrador.cl/claves/sebastian-pinera/'
+import json
 
 pinera=[]
 
@@ -35,20 +35,20 @@ def scraper(article):
 	components={}
 	date=article.find("p").text.split("|")[0]
 	title=article.find('a').text
-	autor=article.find_all('p')[1].text
+	author=article.find_all('p')[1].text
 	link=article.find('a').get('href')
 	components['date']=date
 	components['title']=title
-	components['autor']=autor
+	components['author']=author
 	components['link']=link
 	page_articles.append(components)
 	return page_articles
 
 def first_iterator():	
 	tag='sebastian-pinera'
-	for i in range(1,3):
+	pages=page_counter('http://www.elmostrador.cl/claves/sebastian-pinera/')
+	for i in reversed(range(520,pages+1)):
 		page_link='http://www.elmostrador.cl/claves/'+tag+'/page/'+str(i)+'/'
 		print(articles_selector(page_link))
 
-#first_iterator()
-#page_counter(page_link)
+
