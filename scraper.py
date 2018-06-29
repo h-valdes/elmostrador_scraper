@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import requests
 import json
 import os
+import sys
 
 #find where the Error 404 is located
 def page_counter(link):
@@ -26,23 +27,27 @@ def max_id():
 	ids=list(map(int,data.keys()))
 	biggest_id=max(ids)
 	print(biggest_id)
+	return biggest_id
 
 def articles_selector(link):
 	articles=[]
+	flag=True
 	page_response = requests.get(link, timeout=5)
 	page_content = BeautifulSoup(page_response.content, "html.parser")
 	all_articles = page_content.find_all('article')
 	for i in all_articles:
 		if i.find(class_="fecha"):
-			scraper(i)
+			a,b=scraper(i)
+			data_dumper(a,b)
+	return flag
 
 def scraper(article):
 	data={}
 	date="a"
 	if os.path.isfile('data.txt'):
 		with open('data.txt', encoding='utf-8') as outfile:
-			data=json.load(outfile)
-		ids=list(map(int, data.keys()))
+			data=json.load(outfile)	
+		ids=list(map(int,data.keys()))
 		id_number=str(max(ids)+1)			
 	else:
 		id_number="1"
@@ -57,10 +62,24 @@ def scraper(article):
 	components['link']=link	
 	for i in data.keys():
 		if data[i]['title']==title:
-			return			
-	data[id_number]=components
+			#return
+			sys.exit()
+	return id_number,components	
+
+def data_dumper(id_number,dict_article):	
+	data={}
+	with open('data.txt', encoding='utf-8') as outfile:
+			data=json.load(outfile)
+	data[id_number]=dict_article
 	with open('data.txt','w', encoding='utf-8') as outfile:
 		json.dump(data,outfile,ensure_ascii=False,sort_keys=True, indent=4)
+
+def update():
+	tag='sebastian-pinera'
+	page_number=1
+	while True:
+		page_link='http://www.elmostrador.cl/claves/'+tag+'/page/'+str(page_number)+'/'
+		articles_selector(page_link)	
 
 def first_iterator():	
 	tag='sebastian-pinera'
