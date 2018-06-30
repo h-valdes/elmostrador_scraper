@@ -7,6 +7,8 @@ parser.add_argument('-c','--counter',help='Count how many pages has the target.'
 parser.add_argument('-m','--max_id',help='Show the biggest ID in JSON File.',action="store_true")
 parser.add_argument('-u','--update',help='Update the current file.',action="store_true")
 args=parser.parse_args()
+tag="sebastian-pinera"
+scraper=scraper.Elmostrador_scraper(tag)
 if args.first_iterator:
 	scraper.first_iterator()
 elif args.counter:
